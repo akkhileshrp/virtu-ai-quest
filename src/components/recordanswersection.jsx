@@ -38,8 +38,10 @@ const RecordAnswerSection = ({ questions, activeQuestion, data }) => {
   }, [results]);
 
   useEffect(() => {
-    if (!isRecording && answer.length > 10) storeUserAnswer();
-  }, [answer]);
+    if (!isRecording && answer.length > 10) {
+      storeUserAnswer();
+    }
+  }, [isRecording, answer]);
 
   const startStopRecording = async () => {
     if (isRecording) stopSpeechToText();
@@ -47,39 +49,49 @@ const RecordAnswerSection = ({ questions, activeQuestion, data }) => {
   };
 
   const storeUserAnswer = async () => {
-    setLoading(true);
-    const feedBackPrompt =
-      "Question:" +
-      questions[activeQuestion]?.question +
-      ", User answer:" +
-      answer +
-      ", Depend on question and user answer please give us rating out of 5 for answer and feedback as area of improvement if any in just 3 to 5 lines to improve it in JSON format with rating field and feedback field";
-
-    const result = await chatSession.sendMessage(feedBackPrompt);
-    const response = result.response
-      .text()
-      .replace("```json", "")
-      .replace("```", "");
-
-    const jsonFormatFeedback = JSON.parse(response);
-
-    const userAnswers = await db.insert(UserAnswer).values({
-      mockIdRef: data.mockId,
-      question: questions[activeQuestion]?.question,
-      correctAns: questions[activeQuestion]?.answer,
-      userAns: answer,
-      feedback: jsonFormatFeedback?.feedback,
-      rating: jsonFormatFeedback?.rating,
-      userEmail: user.primaryEmailAddress.emailAddress,
-      createdAt: moment().format("DD-MM-YYYY"),
-    });
-
-    if (userAnswers) {
-      toast.success("User answer recorded successfully");
-      setAnswer("");
-      setResults([]);
+    if (!answer || answer.length <= 10) {
+      toast.error("Answer is too short. Please provide a valid response.");
+      return;
     }
-    setLoading(false);
+
+    try {
+      setLoading(true);
+      const feedBackPrompt =
+        `Question: ${questions[activeQuestion]?.question}, ` +
+        `User answer: ${answer}. ` +
+        `Based on the question and answer, provide a rating out of 5 ` +
+        `and feedback for improvement in JSON format with fields 'rating' and 'feedback'.`;
+
+      const result = await chatSession.sendMessage(feedBackPrompt);
+      const response = result.response
+        .text()
+        .replace("```json", "")
+        .replace("```", "");
+
+      const jsonFormatFeedback = JSON.parse(response);
+
+      const userAnswers = await db.insert(UserAnswer).values({
+        mockIdRef: data.mockId,
+        question: questions[activeQuestion]?.question,
+        correctAns: questions[activeQuestion]?.answer,
+        userAns: answer,
+        feedback: jsonFormatFeedback?.feedback || "No feedback provided.",
+        rating: jsonFormatFeedback?.rating || 0,
+        userEmail: user.primaryEmailAddress.emailAddress,
+        createdAt: moment().format("DD-MM-YYYY"),
+      });
+
+      if (userAnswers) {
+        toast.success("User answer recorded successfully.");
+        setAnswer("");
+        setResults([]);
+      }
+    } catch (error) {
+      console.error("Error storing user answer:", error);
+      toast.error("Failed to store the answer. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
