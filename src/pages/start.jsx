@@ -33,8 +33,6 @@ export default function Start() {
       }
 
       const jsonMockResp = JSON.parse(result[0].jsonMockResp);
-      console.log("Parsed JSON response:", jsonMockResp);
-
       setQuestions(jsonMockResp.interviewQuestions || []);
       setData(result[0]);
     } catch (error) {

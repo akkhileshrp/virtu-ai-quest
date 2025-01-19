@@ -1,22 +1,18 @@
+import { Button } from "../components/ui/button";
 import { Mic, StopCircle, WebcamIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Webcam from "react-webcam";
-import { Button } from "./ui/button";
-import { useUser } from "@clerk/clerk-react";
 import useSpeechToText from "react-hook-speech-to-text";
+import { toast } from "sonner";
 import { chatSession } from "../utils/geminiai";
 import { db } from "../db";
 import { UserAnswer } from "../db/schema";
+import { useUser } from "@clerk/clerk-react";
 import moment from "moment";
-import { toast } from "sonner";
 
-export default function RecordAnswerSection({
-  questions,
-  activeQuestion,
-  data,
-}) {
+const RecordAnswerSection = ({ questions, activeQuestion, data }) => {
   const [answer, setAnswer] = useState("");
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { user } = useUser();
   const {
@@ -37,7 +33,6 @@ export default function RecordAnswerSection({
       const concatenatedResults = results
         .map((result) => result.transcript)
         .join(" ");
-
       setAnswer(concatenatedResults);
     }
   }, [results]);
@@ -52,15 +47,15 @@ export default function RecordAnswerSection({
   };
 
   const storeUserAnswer = async () => {
-    setIsLoading(true);
-    const feedback =
+    setLoading(true);
+    const feedBackPrompt =
       "Question:" +
       questions[activeQuestion]?.question +
-      ", User Answer:" +
+      ", User answer:" +
       answer +
-      ", Depend on question and user answer please give us mark out of 10 for answer and feedback as area of improvement if any in just 3 to 5 lines to improve it in JSON format with rating field and feedback field";
+      ", Depend on question and user answer please give us rating out of 5 for answer and feedback as area of improvement if any in just 3 to 5 lines to improve it in JSON format with rating field and feedback field";
 
-    const result = await chatSession.sendMessage(feedback);
+    const result = await chatSession.sendMessage(feedBackPrompt);
     const response = result.response
       .text()
       .replace("```json", "")
@@ -79,17 +74,17 @@ export default function RecordAnswerSection({
       createdAt: moment().format("DD-MM-YYYY"),
     });
 
-    if(userAnswers) {
+    if (userAnswers) {
       toast.success("User answer recorded successfully");
       setAnswer("");
       setResults([]);
     }
-    setIsLoading(false);
+    setLoading(false);
   };
 
   return (
     <div className="flex items-center justify-center flex-col">
-      <div className="flex flex-col my-5 justify-center items-center rounded-lg p-5">
+      <div className="flex flex-col my-5 justify-center bg-black items-center rounded-lg p-5">
         <WebcamIcon className="h-60 w-60 absolute" />
         <Webcam
           mirrored={true}
@@ -121,4 +116,6 @@ export default function RecordAnswerSection({
       </Button>
     </div>
   );
-}
+};
+
+export default RecordAnswerSection;
