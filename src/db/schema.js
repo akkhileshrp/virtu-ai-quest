@@ -22,3 +22,12 @@ export const UserAnswer = pgTable("userAnswer", {
   userEmail: varchar("userEmail"),
   createdAt: varchar("createdAt"),
 });
+
+export const AiAnswer = pgTable("aiAnswer", {
+  id: serial("id").primaryKey(),
+  mockIdRef: varchar("mockId"),
+  userQuestion: varchar("userQuestion"),
+  aiAnswer: varchar("aiAnswer"),
+  userEmail: varchar("userEmail"),
+  createdAt: varchar("createdAt"),
+});
