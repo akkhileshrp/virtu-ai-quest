@@ -59,7 +59,7 @@ const RecordAnswerSection = ({ questions, activeQuestion, data }) => {
       const feedBackPrompt =
         `Question: ${questions[activeQuestion]?.question}, ` +
         `User answer: ${answer}. ` +
-        `Based on the question and answer, provide a rating out of 5 ` +
+        `Based on the question and answer, provide a rating out of 10 ` +
         `and feedback for improvement in JSON format with fields 'rating' and 'feedback'.`;
 
       const result = await chatSession.sendMessage(feedBackPrompt);
