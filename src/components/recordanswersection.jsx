@@ -214,13 +214,7 @@ const RecordAnswerSection = ({ questions, activeQuestion, data }) => {
                   </Button>
                 </div>
                 {aiResponse && (
-                  <div
-                    className="mt-5 bg-blue-100 p-4 rounded-md text-black"
-                    style={{
-                      maxHeight: "300px",
-                      overflowY: "auto",
-                    }}
-                  >
+                  <div className="mt-5 bg-blue-100 p-4 rounded-md text-black overflow-y-auto max-h-[300px]">
                     <h4 className="font-semibold">AI Response:</h4>
                     <div>{formatAIResponse(aiResponse)}</div>
                   </div>
