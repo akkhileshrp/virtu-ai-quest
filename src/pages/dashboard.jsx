@@ -100,7 +100,10 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-6 py-12">
           <h1 className="title text-4xl font-bold">Dashboard</h1>
           <p className="text-gray-500">
-            Create and Start your AI Mockup Interview
+            Create and Start your AI Mockup Interview{" "}
+            <span className="font-semibold">
+              {user.firstName} {user.lastName}
+            </span>
           </p>
           <div className="p-10 w-[300px] md:w-[400px] mt-5 border border-gray-700 border-dashed rounded-lg transition-all hover:scale-105 cursor-pointer">
             <h2 onClick={() => setIsOpen(true)} className="text-lg text-center">
