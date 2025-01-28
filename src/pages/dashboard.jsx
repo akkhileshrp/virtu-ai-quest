@@ -141,7 +141,7 @@ export default function Dashboard() {
                       <Label>Job Description</Label>
                       <Textarea
                         {...register("jobDescription")}
-                        placeholder="Ex. MongoDB, Expressjs, Reactjs, Nodejs"
+                        placeholder="Ex. Reactjs (Avoid using commas)"
                         className="mt-2"
                       />
                       {errors.jobDescription && (
