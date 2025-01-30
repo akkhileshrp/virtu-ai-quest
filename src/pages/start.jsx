@@ -44,25 +44,31 @@ export default function Start() {
 
   if (loading) {
     return (
-      <div>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
         <Header />
-        <p>Loading...</p>
+        <div className="flex items-center justify-center h-[calc(100vh-80px)]">
+          <p className="text-lg text-gray-700">Loading...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
       <Header />
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative">
+      <div className="container mx-auto px-4 md:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
           {Array.isArray(questions) && questions.length > 0 ? (
             <QuestionSection
               questions={questions}
               activeQuestion={activeQuestion}
             />
           ) : (
-            <p>No questions available.</p>
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <p className="text-gray-700 text-center">
+                No questions available.
+              </p>
+            </div>
           )}
           <div className="relative">
             <RecordAnswerSection
@@ -70,32 +76,34 @@ export default function Start() {
               activeQuestion={activeQuestion}
               data={data}
             />
-            <div className="absolute bottom-4 right-4 md:bottom-10 md:right-10 lg:bottom-14 lg:right-14 flex gap-2 md:gap-3 justify-end">
-              {activeQuestion > 0 && Array.isArray(questions) && (
-                <Button
-                  className="bg-blue-600 hover:bg-blue-700 w-24 md:w-32 lg:w-36 px-2 md:px-4 py-1 md:py-2 text-sm md:text-base"
-                  onClick={() => setIsActive(activeQuestion - 1)}
-                >
-                  Previous
-                </Button>
-              )}
-              {Array.isArray(questions) &&
-                activeQuestion !== questions.length - 1 && (
+            <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg md:static md:bg-transparent md:shadow-none mt-3 p-4 md:p-0">
+              <div className="flex justify-end gap-2 md:gap-3">
+                {activeQuestion > 0 && Array.isArray(questions) && (
                   <Button
-                    className="bg-blue-600 hover:bg-blue-700 w-24 md:w-32 lg:w-36 px-2 md:px-4 py-1 md:py-2 text-sm md:text-base"
-                    onClick={() => setIsActive(activeQuestion + 1)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white w-24 md:w-32 lg:w-36 px-2 md:px-4 py-1 md:py-2 text-sm md:text-base"
+                    onClick={() => setIsActive(activeQuestion - 1)}
                   >
-                    Next
+                    Previous
                   </Button>
                 )}
-              {Array.isArray(questions) &&
-                activeQuestion === questions.length - 1 && (
-                  <Link to={`/interview/${id}/feedback`}>
-                    <Button className="bg-blue-600 hover:bg-blue-700 w-24 md:w-32 lg:w-36 px-2 md:px-4 py-1 md:py-2 text-sm md:text-base">
-                      End
+                {Array.isArray(questions) &&
+                  activeQuestion !== questions.length - 1 && (
+                    <Button
+                      className="bg-blue-600 hover:bg-blue-700 text-white w-24 md:w-32 lg:w-36 px-2 md:px-4 py-1 md:py-2 text-sm md:text-base"
+                      onClick={() => setIsActive(activeQuestion + 1)}
+                    >
+                      Next
                     </Button>
-                  </Link>
-                )}
+                  )}
+                {Array.isArray(questions) &&
+                  activeQuestion === questions.length - 1 && (
+                    <Link to={`/interview/${id}/feedback`}>
+                      <Button className="bg-blue-600 hover:bg-blue-700 text-white w-24 md:w-32 lg:w-36 px-2 md:px-4 py-1 md:py-2 text-sm md:text-base">
+                        End
+                      </Button>
+                    </Link>
+                  )}
+              </div>
             </div>
           </div>
         </div>

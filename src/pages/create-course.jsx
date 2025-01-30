@@ -53,7 +53,7 @@ export default function CreateCourse() {
           ) : (
             <CourseDetails />
           )}
-          <div className="flex justify-between mt-10">
+          <div className="flex justify-between gap-2 mt-10">
             <Button
               onClick={() => setActive(active - 1)}
               disabled={active === 0}
@@ -70,7 +70,7 @@ export default function CreateCourse() {
               </Button>
             ) : (
               <Button className="bg-blue-600 hover:bg-blue-700 px-10">
-                Generate Course Layout
+                Generate Course
               </Button>
             )}
           </div>
