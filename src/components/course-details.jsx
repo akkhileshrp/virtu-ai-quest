@@ -11,13 +11,13 @@ import { Input } from "./ui/input";
 
 export default function CourseDetails() {
   return (
-    <div className="px-10 md:px-20 lg:px-44">
-      <div className="grid grid-cols-2 gap-10">
+    <div className="px-4 sm:px-10 md:px-20 lg:px-44">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
         <div>
-          <Label>Difficulty Level</Label>
+          <Label className="text-sm sm:text-base">Difficulty Level</Label>
           <div className="mt-2">
             <Select>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select Difficulty" />
               </SelectTrigger>
               <SelectContent>
@@ -28,11 +28,12 @@ export default function CourseDetails() {
             </Select>
           </div>
         </div>
+
         <div>
-          <Label>Course Duration</Label>
+          <Label className="text-sm sm:text-base">Course Duration</Label>
           <div className="mt-2">
             <Select>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select Duration" />
               </SelectTrigger>
               <SelectContent>
@@ -45,11 +46,12 @@ export default function CourseDetails() {
             </Select>
           </div>
         </div>
+
         <div>
-          <Label>Add Video</Label>
+          <Label className="text-sm sm:text-base">Add Video</Label>
           <div className="mt-2">
             <Select>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select Video Option" />
               </SelectTrigger>
               <SelectContent>
@@ -59,12 +61,13 @@ export default function CourseDetails() {
             </Select>
           </div>
         </div>
+
         <div>
-          <Label>No. of Chapters</Label>
+          <Label className="text-sm sm:text-base">No. of Chapters</Label>
           <Input
             type="number"
             placeholder="Enter No. of Chapters"
-            className="mt-2"
+            className="mt-2 w-full"
           />
         </div>
       </div>
