@@ -54,8 +54,8 @@ export default function Start() {
   return (
     <div>
       <Header />
-      <div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative">
           {Array.isArray(questions) && questions.length > 0 ? (
             <QuestionSection
               questions={questions}
@@ -64,39 +64,40 @@ export default function Start() {
           ) : (
             <p>No questions available.</p>
           )}
-
-          <RecordAnswerSection
-            questions={questions}
-            activeQuestion={activeQuestion}
-            data={data}
-          />
-        </div>
-        <div className="flex items-center mt-2 mr-2 md:mt-[-50px] md:mr-[50px] justify-end gap-3 mb-3">
-          {activeQuestion > 0 && Array.isArray(questions) && (
-            <Button
-              className="bg-blue-600 hover:bg-blue-700"
-              onClick={() => setIsActive(activeQuestion - 1)}
-            >
-              Previous Question
-            </Button>
-          )}
-          {Array.isArray(questions) &&
-            activeQuestion !== questions.length - 1 && (
-              <Button
-                className="bg-blue-600 hover:bg-blue-700"
-                onClick={() => setIsActive(activeQuestion + 1)}
-              >
-                Next Question
-              </Button>
-            )}
-          {Array.isArray(questions) &&
-            activeQuestion === questions.length - 1 && (
-              <Link to={`/interview/${id}/feedback`}>
-                <Button className="bg-blue-600 hover:bg-blue-700">
-                  End Interview
+          <div className="relative">
+            <RecordAnswerSection
+              questions={questions}
+              activeQuestion={activeQuestion}
+              data={data}
+            />
+            <div className="absolute bottom-4 right-4 md:bottom-10 md:right-10 lg:bottom-14 lg:right-14 flex gap-2 md:gap-3 justify-end">
+              {activeQuestion > 0 && Array.isArray(questions) && (
+                <Button
+                  className="bg-blue-600 hover:bg-blue-700 w-24 md:w-32 lg:w-36 px-2 md:px-4 py-1 md:py-2 text-sm md:text-base"
+                  onClick={() => setIsActive(activeQuestion - 1)}
+                >
+                  Previous
                 </Button>
-              </Link>
-            )}
+              )}
+              {Array.isArray(questions) &&
+                activeQuestion !== questions.length - 1 && (
+                  <Button
+                    className="bg-blue-600 hover:bg-blue-700 w-24 md:w-32 lg:w-36 px-2 md:px-4 py-1 md:py-2 text-sm md:text-base"
+                    onClick={() => setIsActive(activeQuestion + 1)}
+                  >
+                    Next
+                  </Button>
+                )}
+              {Array.isArray(questions) &&
+                activeQuestion === questions.length - 1 && (
+                  <Link to={`/interview/${id}/feedback`}>
+                    <Button className="bg-blue-600 hover:bg-blue-700 w-24 md:w-32 lg:w-36 px-2 md:px-4 py-1 md:py-2 text-sm md:text-base">
+                      End
+                    </Button>
+                  </Link>
+                )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

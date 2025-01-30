@@ -27,7 +27,6 @@ const RecordAnswerSection = ({ questions, activeQuestion, data }) => {
   const [aiResponse, setAiResponse] = useState("");
 
   const { user } = useUser();
-
   const aiUserQuestion = questions[activeQuestion]?.question || "";
 
   const {
@@ -85,7 +84,7 @@ const RecordAnswerSection = ({ questions, activeQuestion, data }) => {
 
       const jsonFormatFeedback = JSON.parse(response);
 
-      const userAnswers = await db.insert(UserAnswer).values({
+      await db.insert(UserAnswer).values({
         mockIdRef: data.mockId,
         question: questions[activeQuestion]?.question,
         correctAns: questions[activeQuestion]?.answer,
@@ -96,11 +95,9 @@ const RecordAnswerSection = ({ questions, activeQuestion, data }) => {
         createdAt: moment().format("DD-MM-YYYY"),
       });
 
-      if (userAnswers) {
-        toast.success("User answer recorded successfully.");
-        setAnswer("");
-        setResults([]);
-      }
+      toast.success("User answer recorded successfully.");
+      setAnswer("");
+      setResults([]);
     } catch (error) {
       console.error("Error storing user answer:", error);
       toast.error("Failed to store the answer. Please try again.");
@@ -138,6 +135,7 @@ const RecordAnswerSection = ({ questions, activeQuestion, data }) => {
       setAiResponse(aiResult);
     } catch (error) {
       console.error(error);
+      toast.error("Failed to generate AI answer. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -149,23 +147,24 @@ const RecordAnswerSection = ({ questions, activeQuestion, data }) => {
   };
 
   return (
-    <div className="flex items-center justify-center flex-col">
-      <div className="flex flex-col my-5 justify-center bg-black items-center rounded-lg p-5">
-        <WebcamIcon className="h-60 w-60 absolute" />
+    <div className="flex items-center justify-center flex-col bg-white rounded-3xl p-12 mt-9 bg-gradient-to-br from-purple-50 to-blue-50 shadow-md mr-10">
+      <div className="relative w-full rounded-lg overflow-hidden mb-5 border-2 border-gray-300">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-transparent opacity-40 pointer-events-none"></div>
         <Webcam
           mirrored={true}
           style={{
-            height: 300,
+            height: 400, // Increased height here
             width: "100%",
-            zIndex: 10,
+            objectFit: "cover",
           }}
         />
+        <WebcamIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-16 w-16 text-gray-400 opacity-40" />
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex gap-3 mt-5">
         <Button
           variant="outline"
-          className="text-black mb-6"
+          className="text-black mb-6 bg-gradient-to-r from-blue-200 to-blue-100 hover:from-blue-300 hover:to-blue-200 transition-colors duration-300"
           onClick={startStopRecording}
           disabled={loading}
         >
@@ -181,8 +180,13 @@ const RecordAnswerSection = ({ questions, activeQuestion, data }) => {
             </h2>
           )}
         </Button>
-
-        <Button onClick={() => setIsOpen(true)}>Ask AI For Help</Button>
+        <Button
+          className="bg-gradient-to-r from-green-400 to-green-200 hover:from-green-500 hover:to-green-300 text-white transition-colors duration-300"
+          onClick={() => setIsOpen(true)}
+          disabled={loading}
+        >
+          Ask AI for Help
+        </Button>
 
         <Dialog open={open} onOpenChange={setIsOpen}>
           <DialogContent>
@@ -192,30 +196,38 @@ const RecordAnswerSection = ({ questions, activeQuestion, data }) => {
                 Paste your interview questions below, and our AI will provide
                 clear, concise, and professional answers to help you prepare.
                 <div className="mt-3">
-                  <Label className="text-black">Paste the Question</Label>
+                  <Label className="text-gray-700 block mb-2">
+                    Paste the Question
+                  </Label>
                   <Textarea
                     placeholder="Ask your doubts here!"
-                    className="mt-2 text-black"
+                    className="mt-2 text-black w-full rounded-md border border-gray-300 focus:ring-2 focus:ring-blue-200 focus:border-blue-300 p-2"
                     value={aiUserQuestion}
+                    readOnly={true}
+                    onChange={(e) => {}}
                   />
-                  <Button
-                    className="mt-3"
-                    disabled={loading}
-                    onClick={handleAiResponse}
-                  >
-                    {loading ? "Generating..." : "Get AI Answer"}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="ml-3 text-black"
-                    onClick={handleCancel}
-                  >
-                    Cancel
-                  </Button>
+                  <div className="mt-3 flex gap-2">
+                    <Button
+                      className="bg-gradient-to-r from-blue-500 to-blue-300 hover:from-blue-600 hover:to-blue-400 text-white transition-colors duration-300"
+                      disabled={loading}
+                      onClick={handleAiResponse}
+                    >
+                      {loading ? "Generating..." : "Get AI Answer"}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="text-gray-700 border border-gray-300 hover:bg-gray-100 transition-colors duration-300"
+                      onClick={handleCancel}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
                 </div>
                 {aiResponse && (
-                  <div className="mt-5 bg-blue-100 p-4 rounded-md text-black overflow-y-auto max-h-[300px]">
-                    <h4 className="font-semibold">AI Response:</h4>
+                  <div className="mt-5 bg-gray-50 p-4 rounded-md text-black overflow-y-auto max-h-[300px] border border-gray-200">
+                    <h4 className="font-semibold text-gray-800">
+                      AI Response:
+                    </h4>
                     <div>{formatAIResponse(aiResponse)}</div>
                   </div>
                 )}

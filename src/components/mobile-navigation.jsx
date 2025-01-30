@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 export default function MobileNavigation() {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, user } = useUser();
   const [menu, setMenu] = useState(false);
-  
+
   const toggleMenu = () => setMenu(!menu);
 
   return (
@@ -28,7 +28,7 @@ export default function MobileNavigation() {
         </svg>
       )}
       <div
-        className={`fixed top-0 right-0 w-3/4 h-screen bg-white shadow-lg z-50 transform transition-transform duration-500 ease-in-out ${
+        className={`fixed top-0 right-0 w-2/3 md:w-1/3 h-screen bg-white shadow-lg z-50 transform transition-transform duration-500 ease-in-out ${
           menu ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -50,28 +50,90 @@ export default function MobileNavigation() {
           </svg>
         </div>
         <nav className="space-y-4 font-semibold flex flex-col mt-12 px-6">
-          {["dashboard", "about", "questions", "howitworks"].map(
-            (link, index) => (
-              <NavLink
-                key={index}
-                to={`/${link}`}
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-blue-400 font-bold border-b-2 w-32 border-blue-400"
-                    : "text-gray-700 hover:text-blue-400"
-                }
-              >
-                {link.charAt(0).toUpperCase() + link.slice(1)}
-              </NavLink>
-            )
-          )}
-          <UserButton
-            appearance={{
-              elements: {
-                userButtonAvatarBox: "h-10 w-10",
-              },
-            }}
-          />
+          <h1 className="text-gray-700">Main Menu</h1>
+          <hr />
+
+          <NavLink
+            to={"/dashboard"}
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-400 font-bold border-b-2 w-40 border-blue-400"
+                : "text-gray-700 hover:text-blue-400"
+            }
+          >
+            Dashboard
+          </NavLink>
+
+          <NavLink
+            to={"/about"}
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-400 font-bold border-b-2 w-40 border-blue-400"
+                : "text-gray-700 hover:text-blue-400"
+            }
+          >
+            Our Mission
+          </NavLink>
+
+          <NavLink
+            to={"/questions"}
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-400 font-bold border-b-2 w-40 border-blue-400"
+                : "text-gray-700 hover:text-blue-400"
+            }
+          >
+            FAQ
+          </NavLink>
+          <NavLink
+            to={"/how-it-works"}
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-400 font-bold border-b-2 w-40 border-blue-400"
+                : "text-gray-700 hover:text-blue-400"
+            }
+          >
+            Getting Started
+          </NavLink>
+          <NavLink
+            to={"/learning-path"}
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-400 font-bold border-b-2 w-40 border-blue-400"
+                : "text-gray-700 hover:text-blue-400"
+            }
+          >
+            Skill Builder
+          </NavLink>
+          <NavLink
+            to={"/cover-letter"}
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-400 font-bold border-b-2 w-40 border-blue-400"
+                : "text-gray-700 hover:text-blue-400"
+            }
+          >
+            Smart Cover Letter
+          </NavLink>
+          <hr />
+          <h1 className="text-gray-700">My Profile</h1>
+          <div className="flex">
+            <UserButton
+              appearance={{
+                elements: {
+                  userButtonAvatarBox: "h-10 w-10",
+                },
+              }}
+            />
+            <div className="flex flex-col ml-4">
+              <span className="text-xs text-gray-700 font-normal">
+                {user.firstName} {user.lastName}
+              </span>
+              <span className="text-xs text-gray-700 font-normal">
+                {user.primaryEmailAddress.emailAddress}
+              </span>
+            </div>
+          </div>
         </nav>
       </div>
     </div>
