@@ -11,11 +11,24 @@ import {
   CollapsibleTrigger,
 } from "../components/ui/collapsible";
 import { ChevronsUpDown } from "lucide-react";
+import ConfettiExplosion from "react-confetti-explosion";
 
 export default function Feedback() {
   const { id } = useParams();
   const [feedbacks, setFeedbacks] = useState([]);
   const [avgRating, setAvgRating] = useState(0);
+  const [screenSize, setScreenSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const updateSize = () =>
+      setScreenSize({ width: window.innerWidth, height: window.innerHeight });
+
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
 
   const navigate = useNavigate();
 
@@ -63,6 +76,15 @@ export default function Feedback() {
           </>
         ) : (
           <>
+            <div className="flex items-center justify-center">
+              <ConfettiExplosion
+                force={0.8}
+                duration={3000}
+                particleCount={500}
+                width={screenSize.width}
+                height={screenSize.height}
+              />
+            </div>
             <h2 className="text-4xl font-bold text-green-500">
               Boom! You Nailed It!
             </h2>
