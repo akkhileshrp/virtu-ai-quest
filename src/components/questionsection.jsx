@@ -17,7 +17,6 @@ export default function QuestionSection({ questions, activeQuestion }) {
 
   return (
     <div className="p-6 md:p-10 bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl shadow-lg mx-auto max-w-4xl">
-      {/* Question Buttons */}
       <div className="grid grid-cols-5 sm:grid-cols-5 gap-4 mb-8">
         {questions &&
           questions.map((_, index) => (
@@ -34,7 +33,6 @@ export default function QuestionSection({ questions, activeQuestion }) {
           ))}
       </div>
 
-      {/* Active Question */}
       <div className="bg-white rounded-lg p-6 shadow-md mb-8">
         <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
           {activeQuestion + 1}. {questions[activeQuestion]?.question}
@@ -53,7 +51,6 @@ export default function QuestionSection({ questions, activeQuestion }) {
         </button>
       </div>
 
-      {/* Note Section */}
       <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6 shadow-md">
         <div className="flex items-center gap-2 mb-3">
           <Lightbulb className="text-blue-600" size={20} />

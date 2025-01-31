@@ -33,7 +33,12 @@ export default function Start() {
       }
 
       const jsonMockResp = JSON.parse(result[0].jsonMockResp);
-      setQuestions(jsonMockResp.interview_questions || []);
+
+      setQuestions(
+        jsonMockResp.interviewQuestions ||
+          jsonMockResp.interview_questions ||
+          []
+      );
       setData(result[0]);
     } catch (error) {
       console.error("Error fetching interview details:", error);
