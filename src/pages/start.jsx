@@ -33,7 +33,7 @@ export default function Start() {
       }
 
       const jsonMockResp = JSON.parse(result[0].jsonMockResp);
-      setQuestions(jsonMockResp.interviewQuestions || []);
+      setQuestions(jsonMockResp.interview_questions || []);
       setData(result[0]);
     } catch (error) {
       console.error("Error fetching interview details:", error);
@@ -65,7 +65,9 @@ export default function Start() {
             />
           ) : (
             <div className="bg-white rounded-lg shadow-md p-6">
-              <p className="text-gray-700 text-center">No questions available.</p>
+              <p className="text-gray-700 text-center">
+                No questions available.
+              </p>
             </div>
           )}
           <div className="relative flex flex-col">
