@@ -141,7 +141,7 @@ export default function Dashboard() {
                       <Label>Job Description</Label>
                       <Textarea
                         {...register("jobDescription")}
-                        placeholder="Ex. Reactjs (Avoid using commas)"
+                        placeholder="Ex. MongoDB, Express.js, React.js, Node.js"
                         className="mt-2"
                       />
                       {errors.jobDescription && (
@@ -155,7 +155,7 @@ export default function Dashboard() {
                       <Label>Years of Experience</Label>
                       <Input
                         {...register("yearsOfExperience")}
-                        placeholder="Ex. 2"
+                        placeholder="Ex. Fresher or 2"
                         className="mt-2"
                       />
                       {errors.yearsOfExperience && (
