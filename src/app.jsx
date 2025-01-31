@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/home";
 import Dashboard from "./pages/dashboard";
@@ -13,9 +13,11 @@ import Feedback from "./pages/feedback";
 import Learning from "./pages/learning";
 import AICoverLetter from "./pages/ai-coverletter";
 import CreateCourse from "./pages/create-course";
+import { CourseInputContext } from "./context/course-context";
 
 export default function App() {
   const { isSignedIn, isLoaded } = useUser();
+  const [userCourseInput, setUserCourseInput] = useState([]);
   if (!isLoaded) return null;
   return (
     <div>
@@ -35,7 +37,16 @@ export default function App() {
             {/* learning and cover letter and etc.. features routing */}
             <Route path="/learning-path" element={<Learning />} />
             <Route path="/cover-letter" element={<AICoverLetter />} />
-            <Route path="/learning-path/create-course" element={<CreateCourse />} />
+            <Route
+              path="/learning-path/create-course"
+              element={
+                <CourseInputContext.Provider
+                  value={{ userCourseInput, setUserCourseInput }}
+                >
+                  <CreateCourse />
+                </CourseInputContext.Provider>
+              }
+            />
           </>
         ) : (
           <Route path="*" element={<Navigate to="/sign-in" replace />} />

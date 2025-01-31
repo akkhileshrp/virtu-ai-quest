@@ -1,18 +1,58 @@
 import { Blocks, FileCheck2, Lightbulb } from "lucide-react";
 import Header from "../components/header";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import CourseCategory from "../components/course-category";
 import TopicDescription from "../components/topic-description";
 import CourseDetails from "../components/course-details";
+import { CourseInputContext } from "../context/course-context";
 
 export default function CreateCourse() {
   const [active, setActive] = useState(0);
+
+  const { userCourseInput, setUserCourseInput } =
+    useContext(CourseInputContext);
+
   const stepperOptions = [
     { id: 1, name: "Category", icon: <Blocks /> },
     { id: 2, name: "Topic & Desc", icon: <Lightbulb /> },
     { id: 3, name: "Options", icon: <FileCheck2 /> },
   ];
+
+  const checkStatus = () => {
+    if (userCourseInput?.length === 0) return true;
+
+    if (
+      active === 0 &&
+      (userCourseInput?.category?.length === 0 ||
+        userCourseInput?.category === undefined)
+    )
+      return true;
+
+    if (
+      active === 1 &&
+      (userCourseInput?.topic?.length === 0 ||
+        userCourseInput?.category === undefined ||
+        userCourseInput?.description?.length === 0 ||
+        userCourseInput?.description === undefined)
+    )
+      return true;
+
+    if (
+      active === 2 &&
+      (userCourseInput?.difficulty?.length === 0 ||
+        userCourseInput?.difficulty === undefined ||
+        userCourseInput?.duration?.length === 0 ||
+        userCourseInput?.duration === undefined ||
+        userCourseInput?.video?.length === 0 ||
+        userCourseInput?.video === undefined ||
+        userCourseInput?.chapters?.length === 0 ||
+        userCourseInput?.chapters === undefined)
+    )
+      return true;
+
+    return false;
+  };
 
   return (
     <div>
@@ -65,11 +105,15 @@ export default function CreateCourse() {
               <Button
                 onClick={() => setActive(active + 1)}
                 className="bg-blue-600 hover:bg-blue-700 px-10"
+                disabled={checkStatus()}
               >
                 Next
               </Button>
             ) : (
-              <Button className="bg-blue-600 hover:bg-blue-700 px-10">
+              <Button
+                className="bg-blue-600 hover:bg-blue-700 px-10"
+                disabled={checkStatus()}
+              >
                 Generate Course
               </Button>
             )}

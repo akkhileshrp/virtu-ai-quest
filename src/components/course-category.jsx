@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   Select,
   SelectTrigger,
@@ -5,33 +6,52 @@ import {
   SelectContent,
   SelectItem,
 } from "./ui/select";
+import { CourseInputContext } from "../context/course-context";
 
 const categories = [
-  { value: "programming", label: "Programming" },
-  { value: "web-development", label: "Web Development" },
-  { value: "data-science", label: "Data Science" },
-  { value: "cybersecurity", label: "Cybersecurity" },
-  { value: "ai-ml", label: "Artificial Intelligence & Machine Learning" },
-  { value: "cloud-computing", label: "Cloud Computing" },
-  { value: "design", label: "Design" },
-  { value: "ui-ux", label: "UI/UX Design" },
-  { value: "marketing", label: "Digital Marketing" },
-  { value: "business", label: "Business & Management" },
-  { value: "finance", label: "Finance & Accounting" },
-  { value: "personal-development", label: "Personal Development" },
-  { value: "health-fitness", label: "Health & Fitness" },
-  { value: "music", label: "Music & Audio Production" },
-  { value: "photography", label: "Photography & Video Editing" },
-  { value: "language-learning", label: "Language Learning" },
+  { value: "Programming", label: "Programming" },
+  { value: "Web Development", label: "Web Development" },
+  { value: "App Development", label: "App Development" },
+  { value: "Data Science", label: "Data Science" },
+  { value: "Cybersecurity", label: "Cybersecurity" },
+  {
+    value: "Artificial Intelligence & Machine Learning",
+    label: "Artificial Intelligence & Machine Learning",
+  },
+  { value: "Cloud Computing", label: "Cloud Computing" },
+  { value: "Design", label: "Design" },
+  { value: "UI/UX Design", label: "UI/UX Design" },
+  { value: "Digital Marketing", label: "Digital Marketing" },
+  { value: "Business & Management", label: "Business & Management" },
+  { value: "Finance & Accounting", label: "Finance & Accounting" },
+  { value: "Personal Development", label: "Personal Development" },
+  { value: "Health & Fitness", label: "Health & Fitness" },
+  { value: "Music & Audio Production", label: "Music & Audio Production" },
+  { value: "Language Learning", label: "Language Learning" },
+  {
+    value: "Photography & Video Editing",
+    label: "Photography & Video Editing",
+  },
 ];
 
 const CourseCategory = () => {
+  const { userCourseInput, setUserCourseInput } =
+    useContext(CourseInputContext);
+
+  const handleCategoryChange = (category) => {
+    setUserCourseInput((prev) => ({ ...prev, category: category }));
+  };
+
   return (
-    <Select>
+    <Select
+      onValueChange={handleCategoryChange}
+      defaultValue={userCourseInput.category}
+     
+    >
       <SelectTrigger className="w-full p-2 border border-gray-300 rounded-md">
         <SelectValue placeholder="Select a Category" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="max-h-80 overflow-y-auto">
         {categories.map((category) => (
           <SelectItem key={category.value} value={category.value}>
             {category.label}
