@@ -8,6 +8,14 @@ export default function MobileNavigation() {
 
   const toggleMenu = () => setMenu(!menu);
 
+  const greetMessage = () => {
+    const date = new Date();
+    const hours = date.getHours();
+    if (hours >= 0 && hours < 12) return "Good Morning";
+    if (hours >= 12 && hours < 17) return "Good Afternoon";
+    if (hours >= 17 && hours < 24) return "Good Evening";
+  };
+
   return (
     <div className="ml-6">
       {isSignedIn && (
@@ -126,11 +134,11 @@ export default function MobileNavigation() {
               }}
             />
             <div className="flex flex-col ml-4">
-              <span className="text-xs text-gray-700 font-normal">
-                {user.firstName} {user.lastName}
+              <span className="text-xs font-semibold text-gray-700">
+                {greetMessage()}
               </span>
               <span className="text-xs text-gray-700 font-normal">
-                {user.primaryEmailAddress.emailAddress}
+                {user.firstName} {user.lastName}
               </span>
             </div>
           </div>
