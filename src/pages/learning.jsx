@@ -30,6 +30,7 @@ const Learning = () => {
             </Button>
           </Link>
         </div>
+        <h1 className="text-center font-bold text-4xl">Under development. Stay Tuned! 🫡</h1>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import Header from "../components/header";
 import React, { useContext, useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import CourseCategory from "../components/course-category";
-import TopicDescription from "../components/topic-description";
+import TopicDescription from "../components/course-description";
 import CourseDetails from "../components/course-details";
 import { CourseInputContext } from "../context/course-context";
 
@@ -114,7 +114,7 @@ export default function CreateCourse() {
                 className="bg-blue-600 hover:bg-blue-700 px-10"
                 disabled={checkStatus()}
               >
-                Generate Course
+                Generate
               </Button>
             )}
           </div>
